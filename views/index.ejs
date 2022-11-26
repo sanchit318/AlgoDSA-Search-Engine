@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Engine</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <!-- this href is from inside the public folder-->
+</head>
+<body>
+   <h2> "SEARCH ENGINE"</h2>
+   <div class="textbox">
+        <form>
+        <input type="text" name="question" id="question">
+        <input type="submit" value="Search">
+        </form>
+   </div>
+
+
+   <div class="loading"></div>
+
+   <div class="question">
+    <div class="qstr"></div>
+    <div class="title"></div>
+    <div class="url">
+        <a href=""></a>
+    </div>
+   </div>
+
+   <div class="question">
+    <div class="qstr"></div>
+    <div class="title"></div>
+    <div class="url">
+        <a href=""></a>
+    </div>
+   </div>
+
+   <div class="question">
+    <div class="qstr"></div>
+    <div class="title"></div>
+    <div class="url">
+        <a href=""></a>
+    </div>
+   </div>
+
+   <div class="question">
+    <div class="qstr"></div>
+    <div class="title"></div>
+    <div class="url">
+        <a href=""></a>
+    </div>
+   </div>
+
+   <div class="question">
+    <div class="qstr"></div>
+    <div class="title"></div>
+    <div class="url">
+        <a href=""></a>
+    </div>
+   </div>
+
+
+</body>
+</html>
+
+<script>
+    const form = document.querySelector("form");
+    const questionElement=form.question;
+    const questions=document.querySelectorAll(".question");
+    // const qstrs=document.querySelectorAll(".qstr");
+    // const titles=document.querySelectorAll(".title");
+    const urls=document.querySelectorAll(".url");
+    const loadingDiv=document.querySelector(".loading");
+
+    // console.log(questions);//empty now
+    // console.log(titles);//empty now
+    // console.log(urls);//empty now
+    form.addEventListener('submit',async (e) =>
+    {
+        e.preventDefault();//So that the query string doesn't disappear after refreshing
+        const queryString=questionElement.value;
+        // console.log(queryString);
+        //Whenever the request is fired..
+        loadingDiv.innerHTML=`<h5>Loading...</h5>`;
+        for(let i=0;i<5;++i)
+        {
+            // qstrs[i].innerHTML=``
+            // titles[i].innerHTML=``;
+            urls[i].innerHTML=``;
+        }
+
+        //fetch
+        try {
+            const res=await fetch(`/search?question=${queryString}`,{method:"GET"});
+        //now we only want the json data of response
+        const data=await res.json();//since res has an asynchronous data
+        loadingDiv.innerHTML=`<h3>Your top 5 results are:</h3>`;
+        for(let i=0;i<5;++i)
+        {
+            // qstrs[i].innerHTML=`<h3>${data[i].str}</h3>`
+            // titles[i].innerHTML=`<h3>${data[i].title}</h3>`;
+            urls[i].innerHTML=`<h3>${(i+1)+ ".  " +data[i]}</h3>`;
+        }
+        // questions[0].innerHTML=`<h3>${data[0]}</h3>`
+        console.log(data[0]);
+        console.log(data[1]);
+        console.log(data[2]);
+        console.log(data[3]);
+        console.log(data[4]);
+        // console.log(data[5]);
+
+        } catch (error) {
+
+            //If the fetch() throws some error, the catch will catch the error and throw a popup.
+            alert("Error !!");
+        }
+
+    })
+
+</script>
